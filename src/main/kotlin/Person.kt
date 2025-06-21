@@ -1,15 +1,19 @@
 package nl.novi
 
 class Person// Constructor met naam
-    (var name: String = "Joe") {
-    var lastName: String = "Doe"
+    (var name: String) {
+    var lastName: String? = null
         set(value) {
-            field = if (isFirstLetterUpperCase(value)) {
+            field = if (value?.let { isFirstLetterUpperCase(it) } ?: true) {
                 value
             } else {
-                value.substring(0, 1).uppercase() + value.substring(1).lowercase()
+                // Je mag er hier van uit gaan dat value niet-null is, vanwege de let hierboven
+                value!!.substring(0, 1).uppercase() + value.substring(1).lowercase()
             }
         }
+    constructor() : this("John"){
+        this.lastName = "Doe"
+    }
     var age: Int = 0
 
     var partner: Person? = null
